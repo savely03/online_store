@@ -1,9 +1,28 @@
 {% extends 'shop/base.html' %}
 
 {% block title %}
-
+    Products
 {% endblock %}
 
 {% block content %}
-
+    <br>
+    <div class="container">
+        <div class="col-lg-4 col-md-12 mb-4">
+            <div class="card">
+                <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
+                     data-mdb-ripple-color="light">
+                    <img width="250px" height="300"
+                         alt="Image not found"
+                         src="{% if product.image %}{{ product.image.url }}{% endif %}"
+                         class="w-100"/>
+                </div>
+                <div class="card-body">
+                    <h1>{{ product.name }}</h1>
+                    <h2><a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a></h2>
+                    <strong><p class="mb-3">Price: ${{ product.price }}</p></strong>
+                    <strong>{{ product.description|linebreaks }}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

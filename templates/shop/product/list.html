@@ -1,9 +1,54 @@
 {% extends 'shop/base.html' %}
 
 {% block title %}
-
+    {% if category %}{{ category.name }}{% else %}Products{% endif %}
 {% endblock %}
 
 {% block content %}
-
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a {% if not category %}class="nav-link active"{% else %}class="nav-link"{% endif %} aria-current="page"
+               href="{% url "product_list" %}">All</a>
+        </li>
+        {% for c in categories %}
+            <li class="nav-item">
+                <a {% if category.slug == c.slug %}class="nav-link active"{% else %}class="nav-link"{% endif %}
+                   href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <br>
+    <div class="container">
+        {% if category %}
+            <h2>{{ category.name }}</h2>
+        {% else %}
+            <h2>Products</h2>
+        {% endif %}
+    </div>
+    <br>
+    <div class="container">
+        <div class="row">
+            {% for product in products %}
+                <div class="col-lg-4 col-md-12 mb-4">
+                    <div class="card">
+                        <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
+                             data-mdb-ripple-color="light">
+                            <a href="{{ product.get_absolute_url }}"><img width="250px" height="300"
+                                                                          alt="Image not found"
+                                                                          src="{% if product.image %}{{ product.image.url }}{% endif %}"
+                                                                          class="w-100"/>
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <a href="" class="text-reset">
+                                <h5 class="card-title mb-3"><a
+                                        href="{{ product.get_absolute_url }}">{{ product.name }}</a></h5>
+                            </a>
+                            <h6 class="mb-3">Price: ${{ product.price }}</h6>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
