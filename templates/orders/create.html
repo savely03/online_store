@@ -1,0 +1,62 @@
+{% extends 'shop/base.html' %}
+{% load widget_tweaks %}
+{% block title %}
+    Checkout
+{% endblock %}
+
+{% block content %}
+    <h1>Checkout</h1>
+    <h3>Your order</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Product</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total price</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in cart %}
+            <tr>
+                <th scope="row">{{ item.product.name }}</th>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.total_price }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td><p class="text-info bg-dark">Total: ${{ cart.get_total_price }}</p></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-1">
+                        <label for="First_name" class="form-label">First name</label>
+                        {% render_field form.first_name class="form-control" id="First_name" %}
+                    </div>
+                    <div class="mb-1">
+                        <label for="Last_name" class="form-label">Last name</label>
+                        {% render_field form.last_name class="form-control" id="Last_name" %}
+                    </div>
+                    <div class="mb-1">
+                        <label for="Email" class="form-label">Email</label>
+                        {% render_field form.email class="form-control" id="Email" type='email' %}
+                    </div>
+                    <div class="mb-1">
+                        <label for="Address" class="form-label">Address</label>
+                        {% render_field form.address class="form-control" id="Address" %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="City" class="form-label">City</label>
+                        {% render_field form.city class="form-control" id="City" %}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
