@@ -1,9 +1,59 @@
 {% extends 'shop/base.html' %}
 
 {% block title %}
-
+    Your shopping cart
 {% endblock %}
 
 {% block content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Image</th>
+            <th scope="col">Product</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Remove</th>
+            <th scope="col">Price</th>
+            <th scope="col">Total Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in cart %}
+            <tr>
+                <th>
+                    <img width="300" height="200" alt="No image"
+                         src="{% if item.product.image %}{{ item.product.image.url }}{% endif %}">
+                </th>
+                <th>{{ item.product.name }}</th>
+                <th>{{ item.quantity }}</th>
+                <th>
+                    <a href="{% url "cart_remove" product_id=item.product.id %}">
+                        <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </a>
+                </th>
+                <th>${{ item.price }}</th>
+                <th>${{ item.total_price }}</th>
+            </tr>
+        {% endfor %}
+        {% if cart|length %}
+            <tr>
+                <td><h6>Total:</h6></td>
+                <td colspan="3"></td>
+                <td><h6>${{ cart.get_total_price }}</h6></td>
 
+            </tr>
+            <tr>
+                <td><h6>Purchase:</h6></td>
+                <td><a href="{% url "cart_clear" %}">
+                    <button type="button" class="btn btn-secondary">Clear cart</button>
+                </a></td>
+                <td colspan="2"></td>
+                <td><a href="#">
+                    <button type="button" class="btn btn-success">Order</button>
+                </a></td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
 {% endblock %}
