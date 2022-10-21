@@ -50,7 +50,9 @@
                 </a></td>
                 <td colspan="2"></td>
                 <td><a href="#">
-                    <button type="button" class="btn btn-success">Order</button>
+                    <a href="{% url "order_create" %}">
+                        <button type="button" class="btn btn-success">Order</button>
+                    </a>
                 </a></td>
             </tr>
         {% endif %}
