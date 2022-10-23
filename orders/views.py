@@ -3,7 +3,6 @@ from .forms import OrderForm
 from cart.cart import Cart
 from .models import OrderItem
 
-
 # Create your views here.
 
 
@@ -22,5 +21,6 @@ def order_create(request):
                     quantity=item['quantity'],
                 )
             cart.clear()
+            order_created.delay(order.id)
             return render(request, 'orders/created.html', context={'order': order})
     return render(request, 'orders/create.html', context={'form': form, 'cart': cart})
